@@ -1,6 +1,16 @@
+const displayStorageProduct = () => {
+    const card = getCard();
+    for (const name in card) {
+        displayProduct(name)
+    }
+}
+
 const addItem = () => {
     const inputText = document.getElementById('input-text');
     const value = inputText.value;
+    if (!value) {
+        return;
+    }
     // add Item
     displayProduct(value)
     // add browser
@@ -31,9 +41,21 @@ const getCard = () => {
 
 const addToCard = value => {
     const card = getCard();
-    card[value] = 1;
+    if (card[value]) {
+        card[value] = card[value] + 1;
+    }
+    else {
+        card[value] = 1;
+    }
     // console.log(card);
     const cardStringfi = JSON.stringify(card);
     localStorage.setItem('card', cardStringfi);
 
 }
+
+const placeOrder = () => {
+    document.getElementById('products').textContent = '';
+    localStorage.removeItem('card');
+}
+
+displayStorageProduct();
